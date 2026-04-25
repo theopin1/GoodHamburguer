@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,13 +22,16 @@ namespace GoodHamburger.Application.Queries.PedidoQueries
 
         public async Task<List<PedidoDto>> Handle(ListarPedidoQuery query, CancellationToken cancellationToken)
         {
-            var pedido = await _dataContext.Pedidos
+            var pedidos = await _dataContext.Pedidos
                 .Include(p => p.Sanduiche)
                 .Include(p => p.Acompanhamentos)
-                .Select(p => PedidoDto.From(p))
                 .ToListAsync(cancellationToken);
 
-            return pedido;
+            return pedidos.Select(p =>
+            {
+                var valor = p.Sanduiche.Valor + p.Acompanhamentos.Sum(a => a.Valor);
+                return PedidoDto.From(p, valor);
+            }).ToList();
         }
     }
 }

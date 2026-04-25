@@ -1,5 +1,6 @@
 ﻿using GoodHamburger.Application.Dtos;
 using GoodHamburger.Infra.Data;
+using GoodHamburger.Infra.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,9 +27,11 @@ namespace GoodHamburger.Application.Queries.PedidoQueries
                 .Include(p => p.Acompanhamentos)
                 .FirstOrDefaultAsync(p => p.Id == query.Id);
 
+            var valor = pedido.Sanduiche.Valor + pedido.Acompanhamentos.Sum(a => a.Valor);
+
             if (pedido == null) { throw new Exception("Pedido não encontrado"); }
 
-            return PedidoDto.From(pedido);
+            return PedidoDto.From(pedido, valor);
         }
     }
 }
