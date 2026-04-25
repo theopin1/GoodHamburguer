@@ -11,7 +11,5 @@ namespace GoodHamburger.Application.Commands.PedidoCommands
         public int SanduicheId { get; set; }
         public List<int>? AcompanhamentosIds { get; set; }
         public string? Observacao { get; set; }
-        [JsonIgnore]
-        public decimal Valor { get; set; }
     }
 }

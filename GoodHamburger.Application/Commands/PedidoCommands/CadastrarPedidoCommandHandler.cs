@@ -42,7 +42,7 @@ namespace GoodHamburger.Application.Commands.PedidoCommands
             var temOsDois = temBatataFrita && temRefrigerante;
 
             var valor = sanduiche.Valor + acompanhamentos.Sum(a => a.Valor);
-
+            var valorSemDeconto = valor;
 
             if (temOsDois)
             {
@@ -68,7 +68,7 @@ namespace GoodHamburger.Application.Commands.PedidoCommands
             await _dataContext.Pedidos.AddAsync(pedido, cancellationToken);
             await _dataContext.SaveChangesAsync(cancellationToken);
 
-            return PedidoDto.From(pedido);
+            return PedidoDto.From(pedido, valorSemDeconto);
         }
     }
 }

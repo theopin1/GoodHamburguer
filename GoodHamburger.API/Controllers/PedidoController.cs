@@ -23,9 +23,9 @@ namespace GoodHamburger.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Buscar([FromQuery] BuscarPedidoQuery query, CancellationToken cancellationToken)
+        public async Task<IActionResult> Buscar(int id, CancellationToken cancellationToken)
         {
-            var resultado = await _mediator.Send(query, cancellationToken);
+            var resultado = await _mediator.Send(new BuscarPedidoQuery { Id = id }, cancellationToken);
             return Ok(resultado);
         }
 
