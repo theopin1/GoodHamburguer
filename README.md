@@ -59,7 +59,10 @@ Em vez de usar enums fixos no código, optou-se por persistir sanduíches e acom
 **Relacionamento Many-to-Many**
 A relação entre Pedidos e Acompanhamentos foi modelada como many-to-many, com tabela intermediária gerenciada automaticamente pelo Entity Framework Core.
 
-## O que ficou fora
+## ⚠️ O que ficou fora
 
-- Testes automatizados
+- Testes automatizados das regras de negócio
 - Frontend em Blazor
+- Autenticação e autorização
+- Paginação na listagem de pedidos
+- Seed automático do cardápio no banco de dados
