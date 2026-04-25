@@ -27,9 +27,9 @@ namespace GoodHamburger.Application.Queries.PedidoQueries
                 .Include(p => p.Acompanhamentos)
                 .FirstOrDefaultAsync(p => p.Id == query.Id);
 
-            var valor = pedido.Sanduiche.Valor + pedido.Acompanhamentos.Sum(a => a.Valor);
+            if (pedido == null) { throw new InvalidOperationException("Pedido não encontrado."); }
 
-            if (pedido == null) { throw new Exception("Pedido não encontrado"); }
+            var valor = pedido.Sanduiche.Valor + pedido.Acompanhamentos.Sum(a => a.Valor);
 
             return PedidoDto.From(pedido, valor);
         }

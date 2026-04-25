@@ -25,8 +25,15 @@ namespace GoodHamburger.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Buscar(int id, CancellationToken cancellationToken)
         {
-            var resultado = await _mediator.Send(new BuscarPedidoQuery { Id = id }, cancellationToken);
-            return Ok(resultado);
+            try
+            {
+                var resultado = await _mediator.Send(new BuscarPedidoQuery { Id = id }, cancellationToken);
+                return Ok(resultado);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -60,9 +67,17 @@ namespace GoodHamburger.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Remover(int id, CancellationToken cancellationToken)
         {
-            var command = new ExcluirPedidoCommand { Id = id };
-            var resultado = await _mediator.Send(command, cancellationToken);
-            return Ok(resultado);
+            try 
+            {
+                var command = new ExcluirPedidoCommand { Id = id };
+                var resultado = await _mediator.Send(command, cancellationToken);
+                return Ok(resultado);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

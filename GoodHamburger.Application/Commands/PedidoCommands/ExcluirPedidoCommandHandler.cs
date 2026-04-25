@@ -18,7 +18,7 @@ namespace GoodHamburger.Application.Commands.PedidoCommands
             var pedido = await _dataContext.Pedidos
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
-            if (pedido == null) { throw new Exception("Pedido não encontrado"); }
+            if (pedido == null) { throw new InvalidOperationException("Pedido não encontrado."); }
 
             _dataContext.Pedidos.Remove(pedido);
             await _dataContext.SaveChangesAsync(cancellationToken);

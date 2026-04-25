@@ -25,6 +25,8 @@ namespace GoodHamburger.Application.Commands.PedidoCommands
                  .Include(p => p.Acompanhamentos)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
+            if (pedido == null) { throw new InvalidOperationException("Pedido não encontrado."); }
+
             var sanduiche = await _dataContext.Sanduiches
                .FirstOrDefaultAsync(s => s.Id == request.SanduicheId);
 
@@ -37,8 +39,6 @@ namespace GoodHamburger.Application.Commands.PedidoCommands
 
             if (acompanhamentos.Count != request.AcompanhamentosIds.Count)
                 throw new InvalidOperationException("Um ou mais acompanhamentos não encontrados.");
-
-            if (pedido == null) { throw new Exception("Pedido não encontrado"); }
 
             var temBatataFrita = acompanhamentos.Any(a => a.Nome == "Batata Frita");
             var temRefrigerante = acompanhamentos.Any(a => a.Nome == "Refrigerante");
