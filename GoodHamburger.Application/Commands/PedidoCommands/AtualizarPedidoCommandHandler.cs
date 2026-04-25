@@ -21,6 +21,8 @@ namespace GoodHamburger.Application.Commands.PedidoCommands
         public async Task<PedidoDto> Handle(AtualizarPedidoCommand request, CancellationToken cancellationToken)
         {
             var pedido = await _dataContext.Pedidos
+                 .Include(p => p.Sanduiche)
+                 .Include(p => p.Acompanhamentos)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             var sanduiche = await _dataContext.Sanduiches
